@@ -5,35 +5,34 @@ namespace ServerGrove\Bundle\TranslationEditorBundle;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
-class MongoStorageManager extends ContainerAware
-{
-    protected $mongo;
+class MongoStorageManager extends ContainerAware {
 
-    public function __construct(ContainerInterface $container)
-    {
-        $this->setContainer($container);
+  protected $mongo;
+
+  public function __construct(ContainerInterface $container) {
+    $this->setContainer($container);
+  }
+
+  function getMongo() {
+    if (!$this->mongo) {
+      $this->mongo = new \Mongo($this->container->getParameter('translation_editor.mongodb'));
     }
 
+    if (!$this->mongo) {
+      throw new \Exception("failed to connect to mongo");
+    }
+    return $this->mongo;
+  }
 
-       function getMongo()
-       {
-           if (!$this->mongo) {
-               $this->mongo = new \Mongo($this->container->getParameter('translation_editor.mongodb'));
-           }
+  public function getDB() {
+    return $this->getMongo()->eplanist_translations;
+  }
 
-           if (!$this->mongo) {
-               throw new \Exception("failed to connect to mongo");
-           }
-           return $this->mongo;
-       }
+  public function dropDB() {
+    return $this->getMongo()->dropDB($this->getDB());
+  }
 
-      public function getDB()
-      {
-          return $this->getMongo()->translations;
-      }
-
-      public function getCollection()
-      {
-          return $this->getDB()->selectCollection($this->container->getParameter('translation_editor.collection'));
-      }
+  public function getCollection() {
+    return $this->getDB()->selectCollection($this->container->getParameter('translation_editor.collection'));
+  }
 }
