@@ -11,6 +11,11 @@
             "name":" Pablo Godel",
             "email": "pablo@servergrove.com",
             "homepage": "http://servergrove.com"
+        },
+        {
+            "name":" Natalia Stanko",
+            "email": "anithaly@gmail.com",
+            "homepage": "http://anithaly.com"
         }
     ],
     "require": {
