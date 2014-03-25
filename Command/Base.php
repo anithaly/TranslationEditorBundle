@@ -9,19 +9,18 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Finder\Finder;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
-/**
- */
+class Base extends ContainerAwareCommand {
 
-class Base extends ContainerAwareCommand
-{
-    /**
-     * @var InputInterface
-     */
-    protected $input;
+  /**
+   *
+   * @var InputInterface
+   */
+  protected $input;
 
-    /**
-     * @var OutputInterface
-     */
-    protected $output;
+  /**
+   *
+   * @var OutputInterface
+   */
+  protected $output;
 
 }

@@ -126,10 +126,12 @@
 
 </style>
 <h5>Stats</h5>
-<ul>
-    <li><a href="#" onclick="showAll()">Entries: {{locales[default].entries|length}}</a></li>
-    <li><a href="#" onclick="showMissing()">Missing translations: {{missing|length}}</a></li>
-</ul>
+  {% if locales %}
+    <ul>
+      <li><a href="#" onclick="showAll()">translations: {{locales[default].translations|length}}</a></li>
+      <li><a href="#" onclick="showMissing()">Missing translations: {{missing|length}}</a></li>
+    </ul>
+  {% endif %}
 {% endblock %}
 
 {% block body %}
@@ -146,10 +148,11 @@
     {% endfor %}
     <label></label><input type="submit" value="Save" class="btn primary">
     <input class="btn" type="button" value="Cancel" onclick="$('.alert-message').hide();$('#newtranslation').hide()">
-    
+
     <p id="insert-ok" class="alert-message success" style="display: none"></p>
     <p id="insert-error" class="alert-message error" style="display: none">An error ocurred while adding the translation<span id="errmsg"></span></p>
 </form>
+{% if locales %}
 <table class="zebra-striped">
     <thead>
     <tr>
@@ -163,7 +166,7 @@
     </tr>
     </thead>
     <tbody>
-    {% for key, val in locales[default].entries %}
+    {% for key, val in locales[default].translations %}
     <tr id="entry-{{loop.index}}" {{missing[key] is defined ? 'class="missing"' : 'class="ok"'}}>
         <td>
             <input id="remove-{{loop.index}}" class=" btn danger mysmall" type="button" value="Remove" onclick="confirm('Are you sure?') && removeEntry('{{loop.index}}', '{{key}}')">
@@ -172,17 +175,17 @@
         {% for locale,v in locales %}
         <td>
             <div id="current-{{loop.parent.loop.index}}-{{locale}}">
-                {% set exists = key in v.entries|keys %}
-                <div id="current-{{loop.parent.loop.index}}-{{locale}}-content" onclick="showEditor('{{loop.parent.loop.index}}-{{locale}}')">{% if exists %}{{v.entries[key]}}{%endif%}</div>
-                {% if locale != default and exists and v.entries[key] == locales[default].entries[key] %}
+                {% set exists = key in v.translations|keys %}
+                <div id="current-{{loop.parent.loop.index}}-{{locale}}-content" onclick="showEditor('{{loop.parent.loop.index}}-{{locale}}')">{% if exists %}{{v.translations[key]}}{%endif%}</div>
+                {% if locale != default and exists and v.translations[key] == locales[default].translations[key] %}
                     <span class="label warning">Duplicate</span>
                 {% endif %}
-                {% if not exists or v.entries[key]|length == 0 %}
+                {% if not exists or v.translations[key]|length == 0 %}
                     <span class="label important" onclick="showEditor('{{loop.parent.loop.index}}-{{locale}}')">Missing</span>
                 {% endif %}
             </div>
             <div id="editor-{{loop.parent.loop.index}}-{{locale}}" class="editor">
-                <textarea>{% if exists %}{{v.entries[key]}}{%endif%}</textarea><br/>
+                <textarea>{% if exists %}{{v.translations[key]}}{%endif%}</textarea><br/>
                 <input id="save-{{loop.parent.loop.index}}-{{locale}}"class="btn mysmall success" type="button" value="Save" onclick="saveChange('{{loop.parent.loop.index}}-{{locale}}', '{{key|e('js')}}', '{{locale}}')">
                 <input class="btn mysmall" type="button" value="Cancel" onclick="hideEditor('{{loop.parent.loop.index}}-{{locale}}')">
             </div>
@@ -192,6 +195,7 @@
     {% endfor %}
     </tbody>
 </table>
+{% endif %}
 <!-- Example row of columns -->
 
 <footer>
