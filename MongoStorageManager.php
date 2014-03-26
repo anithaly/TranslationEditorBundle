@@ -25,7 +25,7 @@ class MongoStorageManager extends ContainerAware {
   }
 
   public function getDB() {
-    return $this->getMongo()->eplanist_translations;
+    return $this->getMongo()->translations;
   }
 
   public function dropDB() {

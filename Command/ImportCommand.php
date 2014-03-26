@@ -32,12 +32,12 @@ class ImportCommand extends Base {
     $this->output = $output;
     $this->files = array();
 
-    $filename = $input->getArgument('filename');
+    $filename = $this->input->getArgument('filename');
 
-    if(!empty($filename)&& is_dir($filename)) {
+    if(!empty($filename) && is_dir($filename)) {
       $this->output->writeln("Importing translations from <info>$filename</info>...");
       $finder = new Finder();
-      $finder->files()->in($filename)->name('*');
+      $finder->files()->in($filename)->name('*.yml');
 
       foreach($finder as $file) {
         $this->output->writeln("Found <info>".$file->getRealpath()."</info>...");

@@ -8,9 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Finder\Finder;
 
-use Symfony\Component\Translation\Dumper\YamlFileDumper;
-use Symfony\Component\Translation\Loader\YamlFileLoader;
-use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Yaml\Dumper;
 
 /**
  * Command for exporting translations into files
@@ -33,12 +31,12 @@ class ExportCommand extends Base {
     $this->output = $output;
     $this->files = array();
 
-    $filename = $input->getArgument('filename');
+    $filename = $this->input->getArgument('filename');
 
     if (!empty($filename) && is_dir($filename)) {
       $this->output->writeln("Exporting translations to <info>$filename</info>...");
       $finder = new Finder();
-      $finder->files()->in($filename)->name('*');
+      $finder->files()->in($filename)->name('*.yml');
 
       foreach ($finder as $file) {
         $this->output->writeln("Found <info>".$file->getRealpath()."</info>...");
@@ -88,14 +86,10 @@ class ExportCommand extends Base {
 
         $this->output->writeln("Writing ".count($data['translations'])." translations to $filename");
 
-        $YamlLoader = new YamlFileLoader();
-        $array = $YamlLoader->load($filename, $locale, $domain);
-        $catalogue = new MessageCatalogue($locale);
-        $catalogue->addCatalogue($array);
+        $dumper = new Dumper();
+        $ymlString = $dumper->dump($data['translations'], 1);
 
-        $folder = dirname($filename);
-        $dumper = new YamlFileDumper();
-        $dumper->dump($catalogue, array('path'=> $folder));
+        file_put_contents($filename, $ymlString);
 
         break;
       case 'xliff':
