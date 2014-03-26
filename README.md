@@ -101,8 +101,16 @@ Add the routing configuration to app/config/routing_dev.yml
 
 ## WARNING
 
-**PLEASE** Backup your translation files before using the editor. **Use a source control system like git, even svn is ok**. We are not responsible for lost information.
+* **Please** backup your translation files before using the editor. **Use a source control system like git, even svn is ok**. We are not responsible for lost information.
+
+* Your comments will be ousted from YML files
+
+* Your nested YML will be formatted as key => value format (it is planned to be repared)
 
 ## TODO
 
 ## MongoDB Installation:
+
+1. [Istall MongoDB](http://docs.mongodb.org/manual/installation/)
+
+2. [Install MongoDB driver and add extension to configuration](http://www.php.net/manual/en/mongo.installation.php)
