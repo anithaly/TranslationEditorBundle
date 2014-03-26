@@ -16,24 +16,28 @@ The following command line tools are provided:
 
   ./app/console locale:editor:import
 
-* Import translation file
+* Import translations file
 
-  ./app/console locale:editor:import [filename]
+  ./app/console locale:editor:import /path/to/dir
 
-* Export all translation files
+* Export all translations files
 
   ./app/console locale:editor:export
 
-* Export to translation file
+* Export to translations file
 
-  ./app/console locale:editor:export [filename]
+  ./app/console locale:editor:export /path/to/dir
+
+* Drop database with translations
+
+  ./app/console locale:mongodb:drop
 
 
 ## Screenshots
 
 <img src="http://farm8.staticflickr.com/7158/6668570353_1b852e0e7b_b_d.jpg" />
 
-## Installation:
+## Installation
 
 Clone or add to composer:
 
@@ -64,7 +68,7 @@ Enable it in your app/AppKernel.php (we recommend that you do it only for the de
     ...
   }
 
-## Configuration:
+## Configuration
 
 We recommend that you only enable this bundle for the development environments, so only add the configuration in config_dev.yml
 
@@ -85,7 +89,7 @@ Add the routing configuration to app/config/routing_dev.yml
     resource: "@ServerGroveTranslationEditorBundle/Resources/config/routing.yml"
     prefix:   /
 
-## Usage:
+## Usage
 
 1. Import translation files into mongodb
 
@@ -98,6 +102,10 @@ Add the routing configuration to app/config/routing_dev.yml
 3. Export changes to translation files
 
   ./app/console locale:editor:export
+
+Drop database with translations when needed (clear data)
+
+  ./app/console locale:mongodb:drop
 
 ## WARNING
 
